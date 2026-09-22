@@ -1,6 +1,11 @@
-use crate::{DOCKER_IMAGE_TAG, util::env::image_registry, zkVMKind};
+use crate::{
+    DOCKER_IMAGE_TAG,
+    util::env::{image_registry, image_tag_override},
+    zkVMKind,
+};
 
-/// Returns tag of images in format of `{version}{suffix}`.
+/// Returns tag of images in format of `{version}{suffix}`, where `version` is
+/// [`DOCKER_IMAGE_TAG`] unless overridden by `ERE_IMAGE_TAG`.
 pub fn image_tag(zkvm_kind: zkVMKind, gpu: bool) -> String {
     let suffix = match (zkvm_kind, gpu) {
         // Only the following zkVMs requires CUDA setup in the base image
@@ -8,7 +13,8 @@ pub fn image_tag(zkvm_kind: zkVMKind, gpu: bool) -> String {
         (zkVMKind::OpenVM | zkVMKind::SP1 | zkVMKind::Zisk, true) => "-cuda",
         _ => "",
     };
-    format!("{DOCKER_IMAGE_TAG}{suffix}")
+    let version = image_tag_override().unwrap_or_else(|| DOCKER_IMAGE_TAG.to_string());
+    format!("{version}{suffix}")
 }
 
 /// Returns `ere-base:{image_tag}`

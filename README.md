@@ -370,6 +370,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 | `ERE_GPU_DEVICES`                | Specifies which GPU devices to use when running Docker containers for GPU-enabled zkVMs. The value is passed to Docker's `--gpus` flag. | `all`   |
 | `ERE_DOCKER_NETWORK`             | Specifies the Docker network being used (if any) so spawned `ere-server-*` containers will join that network.                           | ``      |
 | `ERE_ZISK_PROVING_KEY_VOLUME`    | Volume or absolute host path mounted at the ZisK proving key directory, so the downloaded key persists across containers.               | ``      |
+| `ERE_IMAGE_TAG`                  | Overrides the image tag (default: the short commit hash of this checkout), e.g. to run the images published for another commit.         | ``      |
+| `ERE_DOCKER_MEMORY`              | Memory limit of spawned `ere-server-*` containers. The value is passed to Docker's `--memory` flag.                                      | ``      |
 
 Example usage:
 
